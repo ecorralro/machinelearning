@@ -1,14 +1,28 @@
 window.onload = function(){
+    // Patrones
+    var patrones = []
+    patrones[0] = new Image();
+    patrones[0].src = "img/vertical.png";
+    patrones[1] = new Image();
+    patrones[1].src = "img/horizontal.png";
     // Cargamos el contexto del lienzo 1
     var contexto = document.getElementById("lienzo").getContext("2d");
     // Cargamos el contexto del lienzo 2
     var contexto2 = document.getElementById("lienzo2").getContext("2d");
+    // Cargamos el contexto del lienzo 3
+    var contexto3 = document.getElementById("lienzo3").getContext("2d");
+    // CContextos de las referencias
+    var contextovertical = document.getElementById("lienzovertical").getContext("2d");
+    var contextohorizontal = document.getElementById("lienzohorizontal").getContext("2d");
     // Creo una nueva imagen en memoria de Javascript
     let imagen = new Image();
     // Cargo una imagen que tengo en el disco duro
     imagen.src = "img/mano.jpg";
     // Me espero a que a imagen cargue, y entonces ejecuto esta función
     imagen.onload = function(){
+        // Pinto las referencias
+        contextovertical.drawImage(patrones[0],0,0)
+        contextohorizontal.drawImage(patrones[1],0,0)
         // Primero pinto la imagen original en el lienzo original
         contexto.drawImage(imagen,0,0);
         // Detectamos bordes en la imagen
@@ -39,5 +53,35 @@ window.onload = function(){
         }
         // Por ultimo, pongo la imagen
         contexto2.putImageData(imagenlienzo2,0,0); 
+        // Recorro esta imagen para vertical
+        let muestravertical = contextovertical.getImageData(0,0,8,8)
+        for(let x= 0;x<512;x++){
+            for(let y= 0;y<512;y++){
+                let trozo = contexto2.getImageData(x,y,8,8)
+                let suma = 0;
+                for(let i = 0;i<trozo.data.length;i+=4){
+                    suma += Math.abs(trozo.data[i] - muestravertical.data[i])
+                }
+                if(suma < 2000){
+                    contexto3.fillStyle = "red";
+                    contexto3.fillRect(x,y,2,2);
+                }
+            }
+        }
+        // Recorro esta imagen para horizontal
+        let muestrahorizontal = contextohorizontal.getImageData(0,0,8,8)
+        for(let x= 0;x<512;x++){
+            for(let y= 0;y<512;y++){
+                let trozo = contexto2.getImageData(x,y,8,8)
+                let suma = 0;
+                for(let i = 0;i<trozo.data.length;i+=4){
+                    suma += Math.abs(trozo.data[i] - muestrahorizontal.data[i])
+                }
+                if(suma < 2000){
+                    contexto3.fillStyle = "blue";
+                    contexto3.fillRect(x,y,2,2);
+                }
+            }
+        }
     }
 }
