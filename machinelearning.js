@@ -5,6 +5,9 @@ window.onload = function(){
     patrones[0].src = "img/vertical.png";
     patrones[1] = new Image();
     patrones[1].src = "img/horizontal.png";
+    var cuentapatrones = []
+    cuentapatrones[0] = 0
+    cuentapatrones[1] = 0
     // Cargamos el contexto del lienzo 1
     var contexto = document.getElementById("lienzo").getContext("2d");
     // Cargamos el contexto del lienzo 2
@@ -17,7 +20,7 @@ window.onload = function(){
     // Creo una nueva imagen en memoria de Javascript
     let imagen = new Image();
     // Cargo una imagen que tengo en el disco duro
-    imagen.src = "img/mano.jpg";
+    imagen.src = "img/cara.jpg";
     // Me espero a que a imagen cargue, y entonces ejecuto esta función
     imagen.onload = function(){
         // Pinto las referencias
@@ -62,7 +65,8 @@ window.onload = function(){
                 for(let i = 0;i<trozo.data.length;i+=4){
                     suma += Math.abs(trozo.data[i] - muestravertical.data[i])
                 }
-                if(suma < 2000){
+                if(suma < 4000){
+                    cuentapatrones[0]++;
                     contexto3.fillStyle = "red";
                     contexto3.fillRect(x,y,2,2);
                 }
@@ -77,7 +81,8 @@ window.onload = function(){
                 for(let i = 0;i<trozo.data.length;i+=4){
                     suma += Math.abs(trozo.data[i] - muestrahorizontal.data[i])
                 }
-                if(suma < 2000){
+                if(suma < 4000){
+                    cuentapatrones[1]++;
                     contexto3.fillStyle = "blue";
                     contexto3.fillRect(x,y,2,2);
                 }
