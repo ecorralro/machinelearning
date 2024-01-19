@@ -1,6 +1,6 @@
 <?php
 
-$archivo = "datos/prueba.json";
+$archivo = "json/datos.json";
 $datos = [
     'archivo' => $_GET['archivo'],
     'elemento' => $_GET['patron'],

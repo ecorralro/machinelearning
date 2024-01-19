@@ -1,6 +1,21 @@
+// Variables globales
+var patrones = [];
+var cuentapatrones = [];
+var contexto;
+var contexto2;
+var contexto3;
+var contextovertical;
+var contextohorizontal;
+var contextodiagonal1;
+var contextodiagonal2;
+var supercontador = -1;
+var temporizador= "";
+var datos;
+    // Creo una nueva imagen en memoria de Javascript
+let imagen = new Image();
+
 window.onload = function(){
     // Patrones
-    var patrones = []
     patrones[0] = new Image();
     patrones[0].src = "img/vertical.png";
     patrones[1] = new Image();
@@ -9,26 +24,41 @@ window.onload = function(){
     patrones[2].src = "img/diagonal1.png";
     patrones[3] = new Image();
     patrones[3].src = "img/diagonal2.png";
-    var cuentapatrones = []
     cuentapatrones[0] = 0
     cuentapatrones[1] = 0
     cuentapatrones[2] = 0
     cuentapatrones[3] = 0
     // Cargamos el contexto del lienzo 1
-    var contexto = document.getElementById("lienzo").getContext("2d");
+    contexto = document.getElementById("lienzo").getContext("2d");
     // Cargamos el contexto del lienzo 2
-    var contexto2 = document.getElementById("lienzo2").getContext("2d");
+    contexto2 = document.getElementById("lienzo2").getContext("2d");
     // Cargamos el contexto del lienzo 3
-    var contexto3 = document.getElementById("lienzo3").getContext("2d");
+    contexto3 = document.getElementById("lienzo3").getContext("2d");
     // Contextos de las referencias
-    var contextovertical = document.getElementById("lienzovertical").getContext("2d");
-    var contextohorizontal = document.getElementById("lienzohorizontal").getContext("2d");
-    var contextodiagonal1 = document.getElementById("lienzodiagonal1").getContext("2d");
-    var contextodiagonal2 = document.getElementById("lienzodiagonal2").getContext("2d");
-    // Creo una nueva imagen en memoria de Javascript
-    let imagen = new Image();
+    contextovertical = document.getElementById("lienzovertical").getContext("2d");
+    contextohorizontal = document.getElementById("lienzohorizontal").getContext("2d");
+    contextodiagonal1 = document.getElementById("lienzodiagonal1").getContext("2d");
+    contextodiagonal2 = document.getElementById("lienzodiagonal2").getContext("2d");
+    
+    fetch("json/imagenes.json") /******************************************************************** */
+    .then(function(response){
+            return response.json()
+        })
+    .then(function(misdatos){                 
+        datos = misdatos
+        temporizador = setTimeout("bucle()",5000)                    
+    })     
+}
+function bucle(){
+    supercontador++;
+    procesaImagen("../../imgprocesadas/"+datos[supercontador]) /***************************************************** */
+    clearTimeout(temporizador)
+    temporizador = setTimeout("bucle()",5000)
+}
+function procesaImagen(mi_imagen){
+    console.log(mi_imagen)
     // Cargo una imagen que tengo en el disco duro
-    imagen.src = "img/cara.jpg";
+    imagen.src = "machinelearning/imgprocesadas/" + mi_imagen;/********************************************************* */
     // Me espero a que a imagen cargue, y entonces ejecuto esta función
     imagen.onload = function(){
         // Pinto las referencias
@@ -141,5 +171,17 @@ window.onload = function(){
             cuentapatrones[i] /= total;
         }
         console.log(cuentapatrones)
+        let guarda = JSON.stringify(cuentapatrones)
+        let patron = mi_imagen.split("-")
+        let rutacompleta = mi_imagen
+        let soloimagen = rutacompleta.split("/")[rutacompleta.split("/").length-1]
+        let quitonumero = soloimagen.split("-")[1]
+        let quitoextension = quitonumero.split(".")[0]
+        
+        fetch("guardajson.php?archivo="+soloimagen+"&patron="+quitoextension+"&datos="+guarda);
+        console.log("no se "+patron)
+        console.log("archivo "+soloimagen)
+        console.log("patron "+quitoextension)
+        console.log("datps "+guarda)
     }
 }
