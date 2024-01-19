@@ -20,7 +20,7 @@ window.onload = function(){
     // Creo una nueva imagen en memoria de Javascript
     let imagen = new Image();
     // Cargo una imagen que tengo en el disco duro
-    imagen.src = "img/coche.jpg";
+    imagen.src = "img/cara.jpg";
     // Me espero a que a imagen cargue, y entonces ejecuto esta función
     imagen.onload = function(){
         // Pinto las referencias
@@ -88,5 +88,15 @@ window.onload = function(){
                 }
             }
         }
+        console.log(cuentapatrones)
+        // Porcentajes de la estadística
+        let total = 0;
+        for (let i = 0; i < cuentapatrones.length; i++) {
+            total += cuentapatrones[i];
+        }
+        for (let i = 0; i < cuentapatrones.length; i++) {
+            cuentapatrones[i] /= total;
+        }
+        console.log(cuentapatrones)
     }
 }
