@@ -5,18 +5,26 @@ window.onload = function(){
     patrones[0].src = "img/vertical.png";
     patrones[1] = new Image();
     patrones[1].src = "img/horizontal.png";
+    patrones[2] = new Image();
+    patrones[2].src = "img/diagonal1.png";
+    patrones[3] = new Image();
+    patrones[3].src = "img/diagonal2.png";
     var cuentapatrones = []
     cuentapatrones[0] = 0
     cuentapatrones[1] = 0
+    cuentapatrones[2] = 0
+    cuentapatrones[3] = 0
     // Cargamos el contexto del lienzo 1
     var contexto = document.getElementById("lienzo").getContext("2d");
     // Cargamos el contexto del lienzo 2
     var contexto2 = document.getElementById("lienzo2").getContext("2d");
     // Cargamos el contexto del lienzo 3
     var contexto3 = document.getElementById("lienzo3").getContext("2d");
-    // CContextos de las referencias
+    // Contextos de las referencias
     var contextovertical = document.getElementById("lienzovertical").getContext("2d");
     var contextohorizontal = document.getElementById("lienzohorizontal").getContext("2d");
+    var contextodiagonal1 = document.getElementById("lienzodiagonal1").getContext("2d");
+    var contextodiagonal2 = document.getElementById("lienzodiagonal2").getContext("2d");
     // Creo una nueva imagen en memoria de Javascript
     let imagen = new Image();
     // Cargo una imagen que tengo en el disco duro
@@ -26,6 +34,9 @@ window.onload = function(){
         // Pinto las referencias
         contextovertical.drawImage(patrones[0],0,0)
         contextohorizontal.drawImage(patrones[1],0,0)
+        contextodiagonal1.drawImage(patrones[2],0,0)
+        contextodiagonal2.drawImage(patrones[3],0,0)
+        
         // Primero pinto la imagen original en el lienzo original
         contexto.drawImage(imagen,0,0);
         // Detectamos bordes en la imagen
@@ -84,6 +95,38 @@ window.onload = function(){
                 if(suma < 4000){
                     cuentapatrones[1]++;
                     contexto3.fillStyle = "blue";
+                    contexto3.fillRect(x,y,2,2);
+                }
+            }
+        }
+        // Recorro esta imagen para diagonal1 
+        let muestradiagonal1 = contextodiagonal1.getImageData(0,0,8,8)
+        for(let x= 0;x<512;x++){
+            for(let y= 0;y<512;y++){
+                let trozo = contexto2.getImageData(x,y,8,8)
+                let suma = 0;
+                for(let i = 0;i<trozo.data.length;i+=4){
+                    suma += Math.abs(trozo.data[i] - muestradiagonal1.data[i])
+                }
+                if(suma < 4000){
+                    cuentapatrones[2]++;
+                    contexto3.fillStyle = "green";
+                    contexto3.fillRect(x,y,2,2);
+                }
+            }
+        }
+        // Recorro esta imagen para diagonal2 
+        let muestradiagonal2 = contextodiagonal2.getImageData(0,0,8,8)
+        for(let x= 0;x<512;x++){
+            for(let y= 0;y<512;y++){
+                let trozo = contexto2.getImageData(x,y,8,8)
+                let suma = 0;
+                for(let i = 0;i<trozo.data.length;i+=4){
+                    suma += Math.abs(trozo.data[i] - muestradiagonal2.data[i])
+                }
+                if(suma < 4000){
+                    cuentapatrones[3]++;
+                    contexto3.fillStyle = "orange";
                     contexto3.fillRect(x,y,2,2);
                 }
             }
