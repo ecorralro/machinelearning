@@ -20,7 +20,7 @@ window.onload = function(){
     // Creo una nueva imagen en memoria de Javascript
     let imagen = new Image();
     // Cargo una imagen que tengo en el disco duro
-    imagen.src = "img/cara.jpg";
+    imagen.src = "img/coche.jpg";
     // Me espero a que a imagen cargue, y entonces ejecuto esta función
     imagen.onload = function(){
         // Pinto las referencias
