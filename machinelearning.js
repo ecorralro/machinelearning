@@ -12,7 +12,7 @@ var supercontador = -1;
 var temporizador= "";
 var datos;
     // Creo una nueva imagen en memoria de Javascript
-let imagen = new Image();
+var imagen = new Image();
 
 window.onload = function(){
     // Patrones
@@ -176,12 +176,13 @@ function procesaImagen(mi_imagen){
         let rutacompleta = mi_imagen
         let soloimagen = rutacompleta.split("/")[rutacompleta.split("/").length-1]
         let quitonumero = soloimagen.split("-")[1]
-        let quitoextension = quitonumero.split(".")[0]
+        let quitoextension = quitonumero.split(".")[0];
         
         fetch("guardajson.php?archivo="+soloimagen+"&patron="+quitoextension+"&datos="+guarda);
         console.log("no se "+patron)
         console.log("archivo "+soloimagen)
         console.log("patron "+quitoextension)
         console.log("datps "+guarda)
+        
     }
 }

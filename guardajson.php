@@ -1,6 +1,6 @@
 <?php
 
-$archivo = "json/datos.json";
+$archivo = "machinelearning/json/datos.json";
 $datos = [
     'archivo' => $_GET['archivo'],
     'elemento' => $_GET['patron'],
